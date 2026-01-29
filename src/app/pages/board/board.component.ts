@@ -1,18 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import {
   CdkDrag,
   CdkDropList,
   CdkDragDrop,
   moveItemInArray,
+  CdkDropListGroup,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import {DialogModule, Dialog, DIALOG_DATA} from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { TodoList } from '../../models/todo-list';
+import { Column, TodoList } from '../../models/todo-list';
+import { TodoModalComponent } from '../../components/todo-modal/todo-modal.component';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [NavbarComponent, CdkDrag, CdkDropList, CommonModule],
+  imports: [
+    NavbarComponent,
+    CdkDrag,
+    CdkDropList,
+    CommonModule,
+    CdkDropListGroup
+  ],
   templateUrl: './board.component.html',
   styles: [
     `
@@ -26,25 +36,88 @@ import { TodoList } from '../../models/todo-list';
         transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
       }
     `,
-  ]
+  ],
 })
 export class BoardComponent {
-  todos: TodoList[] = [
+
+  constructor(
+    private dialog: Dialog 
+  ) {}
+
+  columns: Column[] = [
     {
-      id: '1',
-      title: 'Learn Angular',
+      title: 'To Do',
+      todos: [
+        {
+          id: '1',
+          title: 'Learn Angular',
+        },
+        {
+          id: '2',
+          title: 'Build an app',
+        },
+      ],
     },
     {
-      id: '2',
-      title: 'Build an app',
+      title: 'Doing',
+      todos: [
+        {
+          id: '3',
+          title: 'Deploy to production',
+        },
+      ],
     },
     {
-      id: '3',
-      title: 'Deploy to production',
+      title: 'Done',
+      todos: [
+        {
+          id: '4',
+          title: 'Create a project plan',
+        },
+      ],
     },
   ];
 
-  drop(event: CdkDragDrop<any[]>) {
-    moveItemInArray(this.todos, event.previousIndex, event.currentIndex);
+  todos: TodoList[] = [];
+
+  doing: TodoList[] = [];
+  done: TodoList[] = [];
+
+  drop(event: CdkDragDrop<TodoList[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
+
+  addColumn() {
+    this.columns.push({
+      title: 'New Column',
+      todos: []
+    })
+  }
+
+  openDialog(todo: TodoList) {
+    const dialogRef =this.dialog.open(TodoModalComponent, {
+      minWidth: '400px',
+      maxWidth: '50%',
+      data: {
+        todo: todo,
+      }
+    })
+    dialogRef.closed.subscribe(output => {
+      console.log(output);
+    })
+  }
+
 }
