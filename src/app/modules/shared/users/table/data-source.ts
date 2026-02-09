@@ -1,5 +1,5 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Product } from '../../models/product';
+import { Product } from '../../../../models/product';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export class DataSourceProduct extends DataSource<Product> {

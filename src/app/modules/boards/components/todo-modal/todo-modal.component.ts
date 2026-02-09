@@ -2,8 +2,8 @@ import { Component, Inject, inject } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { faClose, faCheckToSlot, faBars, faUser, faTag, faCheckSquare, faClock } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { BtnComponent } from "../btn/btn.component";
-import { TodoList } from '../../models/todo-list';
+import { TodoList } from '../../../../models/todo-list';
+import { BtnComponent } from "../../../shared/components/btn/btn.component";
 
 
 interface InputData {
@@ -17,7 +17,7 @@ interface OutputData {
 @Component({
   selector: 'app-todo-modal',
   standalone: true,
-  imports: [FaIconComponent, BtnComponent],
+  imports: [FaIconComponent, BtnComponent,],
   templateUrl: './todo-modal.component.html',
   styles: [``],
 })

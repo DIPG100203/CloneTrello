@@ -1,5 +1,4 @@
 import { Component, output } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import {
   CdkDrag,
   CdkDropList,
@@ -10,8 +9,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import {DialogModule, Dialog, DIALOG_DATA} from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { Column, TodoList } from '../../models/todo-list';
+import { Column, TodoList } from '../../../../models/todo-list';
 import { TodoModalComponent } from '../../components/todo-modal/todo-modal.component';
+import { NavbarComponent } from "../../../layout/components/navbar/navbar.component";
 
 @Component({
   selector: 'app-board',
@@ -21,8 +21,8 @@ import { TodoModalComponent } from '../../components/todo-modal/todo-modal.compo
     CdkDrag,
     CdkDropList,
     CommonModule,
-    CdkDropListGroup
-  ],
+    CdkDropListGroup,
+],
   templateUrl: './board.component.html',
   styles: [
     `
